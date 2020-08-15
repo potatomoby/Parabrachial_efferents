@@ -163,29 +163,13 @@ class CreateSVG():
         self.output_svgname = output_svgname
         x = artboard_size_xy[1]
         y = artboard_size_xy[0]
-        self.strings = ["""
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="%s" height="%s" viewBox="0 0 %s %s">
-  <defs>
-    <style>
-      .cls-1 {
-        isolation: isolate;
-      }
-    </style>
-    <symbol id="Bouton" data-name="Bouton" viewBox="0 0 1 1">
-      <circle cx="0.5" cy="0.5" r="0.5"/>
-    </symbol>
-  </defs>
-  <image class="cls-1" x="0.5" y="0.5" width="%s" height="%s" xlink:href="%s"/>
-    """ % (x, y, y, x, y, x, input_image)]
+        self.strings = ["""<svg id="_Boutons" data-name="Boutons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %s %s"><defs><style>.cls-1{fill:black;stroke:black;}</style></defs>"""% (x,y)]
 
     def add_symbol(self, location_xy):
-        self.strings.append(
-            """  <use width="1" height="1" transform="translate(%s %s)" xlink:href="#Bouton"/>
-            """ % (location_xy[0], location_xy[1]))
+        self.strings.append("""<circle class="cls-1" cx="%s" cy="%s" r="1"/>""" % (location_xy[0], location_xy[1]))
 
     def output(self):
-        self.strings.append(\
-"""</svg>""")
+        self.strings.append("""</svg>""")
         string = "".join(self.strings)
         with open(self.output_svgname, 'w+') as f:
             f.write(string)
